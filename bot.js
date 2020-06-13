@@ -1,6 +1,6 @@
 // Fernanda Moreno
 // LMC 2700: Intro to Computational Media
-//Project 4: TwitterBot
+// Project 4: TwitterBot
 
 // Twitter library
 var Twit = require('twit');
@@ -11,6 +11,10 @@ var T = new Twit(require('./config.js'));
 var exec = require('child_process').exec;
 var fs = require('fs');
 
+// Chooses random item from an array
+function chooseRandom(myArray) {
+	return myArray[Math.floor(Math.random() * myArray.length)];
+}
 
 function tweetIt() {
 		var gtNouns = ["the CULC", "CS 1371", "Willage food", "Nav's lack of food", "the green route", "Skiles"];
@@ -33,11 +37,11 @@ function tweetIt() {
 												"Trick or treating at " + chooseRandom(gtPlaces) + " > trick or treating at a haunted house",
 												"Scariest thing about Tech? \n" + chooseRandom(gtNouns),
 												"Shameless plug: please follow @gt_cm_ambassadors on Instagram!",
-												"Adding her on Facebook < Adding her on " + chooseRandom(gtPlatforms)
+												"Adding her on Facebook < Adding her on " + chooseRandom(gtPlatforms),
+												"Corona is \n Earth's Vaccine \n We \n Are \n The Virus", 
+												"I \n was \n social \n distancing \n but you \n were \n already \n emotionally \n distant af"
 		];
-		function chooseRandom(myArray) {
-	  		return myArray[Math.floor(Math.random() * myArray.length)];
-		}
+
 	var phrase = chooseRandom(phraseArray);
 		var tweet = {
 			status: phrase
@@ -122,7 +126,7 @@ function tweetSixFlags() {
 
 var jacketsSearch = {q: "#gojackets", count: 10, result_type: "recent"};
 
-// This function finds the latest tweet with the #mediaarts hashtag, and retweets it.
+// This function finds the latest tweet with the #gojackets hashtag, and retweets it.
 function retweetLatest() {
 	T.get('search/tweets', jacketsSearch, function (error, data) {
 	  // log out any errors and responses
@@ -142,7 +146,7 @@ function retweetLatest() {
 			}
 		})
 	  }
-	  // However, if our original search request had an error, we want to print it out here.
+	  // If our original search request had an error, we print it out here.
 	  else {
 	  	console.log('There was an error with your hashtag search:', error);
 	  }
@@ -150,19 +154,18 @@ function retweetLatest() {
 }
 
 function runBot() {
-	function chooseRandom(myArray) {
-			return myArray[Math.floor(Math.random() * myArray.length)];
-	}
 
-	var rand = ["1", "2", "3", "4", "5", "6","7","8","9", "10", "11", "12", "13",
-							"14", "15", "16", "17", "18", "19", "20"];
+	var rand = [];
+	for (var i = 1; i <= 20; i++) {
+		rand.push(i);
+	}
 	var picOrTweet = chooseRandom(rand);
 
-	if (picOrTweet == "1") {
+	if (picOrTweet == 1) {
 		tweetSqrl();
-	} else if (picOrTweet == "2") {
+	} else if (picOrTweet == 2) {
 		tweetSixFlags();
-	} else if (picOrTweet == "3"){
+	} else if (picOrTweet == 3){
 		retweetLatest();
 	} else { // to give my composed tweets a better chance
 		tweetIt();
@@ -170,14 +173,3 @@ function runBot() {
 }
 
 runBot();
-//tweetSixFlags();
-//retweetLatest();
-//tweetPic();
-//respondToCoughCough();
-//tweetIt();
-//respondToMention();
-// Try to retweet something as soon as we run the program...
-//retweetLatest();
-// ...and then every hour after that. Time here is in milliseconds, so
-// 1000 ms = 1 second, 1 sec * 60 = 1 min, 1 min * 60 = 1 hour --> 1000 * 60 * 60
-//setInterval(runBot, 1000 * 60);
